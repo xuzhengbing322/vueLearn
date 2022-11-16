@@ -95,13 +95,23 @@
       /></label>
     </div>
 
-
     <!-- v-pre:跳过该元素及其所有子元素的编译.可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译。 -->
-    <div v-pre>{{the Dom will not be compiled}} </div>
+    <div v-pre>{{the Dom will not be compiled}}</div>
 
     <!-- v-once:所在节点在初次动态渲染后，就视为静态内容了。以后数据的改变不会引起v-once所在结构的更新，可以用于优化性能。 -->
-    <div v-once>num value is {{num}}</div>
+    <div v-once>num value is {{ num }}</div>
     <button @click="addnumber">change num</button>
+
+    <!-- :class添加动态样式。
+      class可以写多个样式名。如果其中有动态样式，则使用:和三元运算。注意动态样式要用&.classNameTwo{}
+     -->
+    <div :class="['list-item', active ? 'disabled' : '']">active class</div>
+    <div class="list" :class="{ listchild: active }">active class two</div>
+
+    <!--非class设置动态样式。&:设置的样式，可以不用class直接写样式名。  -->
+    <button class="classButton"
+    :disabled="active"
+    >&lt;</button>
   </div>
 </template>
 
@@ -133,7 +143,8 @@ let data = reactive({
   bidirectional: " bidirectional data",
   browser: "https://www.baidu.com",
   foods: ["rice", "noodies", "potato"],
-  num:1,
+  num: 1,
+  active: true,
 });
 
 let {
@@ -148,6 +159,7 @@ let {
   bidirectional,
   foods,
   num,
+  active,
 } = toRefs(data);
 
 function addPerson() {
@@ -176,31 +188,50 @@ function showmessage() {
   alert("hello, please study hard!");
 }
 
-function addnumber(){
-  data.num++
+function addnumber() {
+  data.num++;
 }
-
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<style lang='less' >
+.list-item {
+  height: 30px;
+  width: 100px;
+  background-color: #ddd;
+
+  &.disabled {
+    color: red;
+  }
 }
 
-nav {
-  padding: 30px;
+// .disabled {
+//   color: red;
+// }
+.list {
+  height: 30px;
+  width: 150px;
+  background-color: #ddd;
+
+  // &.listchild {
+  //   color: red;
+  // }
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.listchild {
+  color: red;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.classButton {
+  border: none;
+  outline: none;
+  width: 38px;
+  height: 38px;
+  background-color: gray;
+  color: #fff;
+  border-radius: 5px;
+  // 设置按钮的隐藏样式
+  &:disabled {
+    opacity: 0.6;
+  }
 }
 </style>
