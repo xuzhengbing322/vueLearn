@@ -1,6 +1,7 @@
 <template>
-  <!-- 父传子：defineProps。
-        子传父：defineEmits  defineExpose
+  <!-- 父传子：defineProps。父组件将子组件需要用到的数据传给子组件。
+        子传父：defineEmits  defineExpose。defineEmits通过自定义事件的函数调用，实现子组件传递数据和点击等信息给父组件。
+          defineExpose通过ref指定，实现子组件传递数据给父组件。
         插槽：匿名插槽、具名插槽、作用域插槽。父组件中，将子组件标签间的内容渲染到子组件对应的template插槽位置
    -->
 

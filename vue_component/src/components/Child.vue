@@ -14,6 +14,19 @@
 
 <script setup lang="ts">
 import {reactive, toRefs } from "vue";
+
+/*props是子组件接受父组件的
+*/ 
+
+// js的props属性方式：variableNamePassed会接受父组件给子组件的同名属性的值
+// const props = defineProps({
+//   variableNamePassed:{
+//       type: Array,
+//       default: () => []
+//   }
+// });
+
+
 // defineProps接受父组件传给子组件的数据
 // 无默认值的情况
 // const props = defineProps<{
@@ -44,18 +57,36 @@ let {dogName,dogAge,dogEat} = toRefs(dog)
 // difineExpose好像只能暴露ref数据。暴露数据之后，父组件就能够通过子组件的标签节点获取暴露数据。
 defineExpose({dogEat})
 
+
+
+
+
 // defineEmits表明自定义事件是clickHandler，参数是params。
 const emit = defineEmits<{
   (e:'clickHandler',parmas:(string|number)[]):void
 }>()
 
-// 触发自定义事件clickHandler，执行父组件中的getMessage，然后借助参数实现子传父
+// 触发父组件中的自定义事件clickHandler，即执行自定义事件所指向的函数。[]是函数的参数。
 const sendDogMessage = ()=>{
   emit('clickHandler',[dog.dogName,dog.dogAge])
 }
 
 
 
+
+/* js的emit写法：defineEmits定义自定义事件，不定义参数。
+emit('selectChange',value)是触发父组件的自定义事件selectChange，即执行自定义事件所指向的函数。value就是函数的参数。
+通过自定义事件，子组件可以调用父组件的函数，并通过参数实现数据的传递。
+*/
+// 子组件
+// const emit = defineEmits(['selectChange'])
+
+// const selectChanges = (value) => {
+//     emit('selectChange',value)
+// }
+
+// 父组件
+// <child @selectChange="xxxx" />
 
 </script>
 
